@@ -19,10 +19,19 @@ class AddPost extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 128,
             ],
+            'label' => [
+                'type' => 'VARCHAR',
+                'constraint' => 50,
+            ],
             'slug' => [
                 'type' => 'VARCHAR',
                 'constraint' => 128,
                 'unique' => true,
+            ],
+            'image' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => true,
             ],
             'body' => [
                 'type' => 'TEXT',

@@ -6,10 +6,14 @@ This is a simple and customisable CMS developed with CodeIgniter.
 
 ## Setup
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
+1. Create a database
+
+2. Copy `env` to `.env` and tailor for your app, specifically the baseURL
 and any database settings.
 
-Then `php spark migrate` and then `php spark db:seed AdminSeeder` to
+2. Run `composer install`
+
+4. Then run `php spark migrate` and then `php spark db:seed AdminSeeder` to
 create the admin user.
 
 ## Server Requirements

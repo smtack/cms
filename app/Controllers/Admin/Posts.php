@@ -22,7 +22,7 @@ class Posts extends ResourceController
      */
     public function index()
     {
-        die('Index');
+        return redirect()->to('/admin');
     }
 
     /**
@@ -58,8 +58,34 @@ class Posts extends ResourceController
      */
     public function create()
     {
-        $data = [
+        $data = [];
+
+        $file = $this->request->getFile('image');
+
+        if($file != '') {
+            $validate_file = $this->validate([
+                'image' => [
+                    'uploaded[image]',
+                    'is_image[image]',
+                    'mime_in[image,image/jpg,image/jpeg,image/png,image/webp]',
+                    'max_size[image,1024]',
+                ],
+            ]);
+
+            if(!$validate_file) {
+                return redirect()->back()->withInput()->with('errors', ['This file could not be uploaded']);
+            } else {
+                $file_name = $file->getRandomName();
+
+                $file->move('./uploads/images', $file_name);
+
+                $data += ['image' => $file_name];
+            }
+        }
+
+        $data += [
             'title' => $this->request->getPost('title'),
+            'label' => $this->request->getPost('label'),
             'slug' => url_title($this->request->getPost('title'), '-', true) . '-' . random_int(100, 100000),
             'body' => $this->request->getPost('body'),
         ];
@@ -96,8 +122,42 @@ class Posts extends ResourceController
      */
     public function update($id = null)
     {
-        $data = [
+        if (!$post = $this->model->find($id)) {
+            throw new PageNotFoundException("Couldn't find post");
+        }
+
+        $data = [];
+
+        $file = $this->request->getFile('image');
+
+        if($file != '') {
+            $validate_file = $this->validate([
+                'image' => [
+                    'uploaded[image]',
+                    'is_image[image]',
+                    'mime_in[image,image/jpg,image/jpeg,image/png,image/webp]',
+                    'max_size[image,1024]',
+                ],
+            ]);
+
+            if(!$validate_file) {
+                return redirect()->back()->withInput()->with('errors', ['This file could not be uploaded']);
+            } else {
+                $file_name = $file->getRandomName();
+
+                $file->move('./uploads/images', $file_name);
+
+                if($post['image']) {
+                    unlink('./uploads/images/' . $post['image']);
+                }
+
+                $data += ['image' => $file_name];
+            }
+        }
+
+        $data += [
             'title' => $this->request->getPost('title'),
+            'label' => $this->request->getPost('label'),
             'slug' => url_title($this->request->getPost('title'), '-', true) . '-' . random_int(100, 100000),
             'body' => $this->request->getPost('body'),
         ];
@@ -118,7 +178,15 @@ class Posts extends ResourceController
      */
     public function delete($id = null)
     {
+        if (!$post = $this->model->find($id)) {
+            throw new PageNotFoundException("Couldn't find post");
+        }
+
         $this->model->delete($id);
+
+        if($post['image']) {
+            unlink('./uploads/images/' . $post['image']);
+        }
 
         return redirect()->to('/admin')->with('success', 'Post deleted successfully');
     }

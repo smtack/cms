@@ -1,12 +1,14 @@
 <section>
     <?php if ($posts !== []): ?>
         <?php foreach ($posts as $post): ?>
-            <h3>
-                <a href="/posts/<?= esc($post['slug'], 'url') ?>"><?= esc($post['title']) ?></a>
-            </h3>
+            <div class="post">
+                <h3>
+                    <a href="/posts/<?= esc($post['slug'], 'url') ?>"><?= esc($post['title']) ?></a>
+                </h3>
 
-            <div class="main">
-                <?= esc(mb_strimwidth($post['body'], 0, 250, '...')) ?>
+                <p>
+                    <?= mb_strimwidth(esc($post['body']), 0, 250, '...') ?>
+                </p>
             </div>
         <?php endforeach ?>
     <?php else: ?>

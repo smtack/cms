@@ -25,14 +25,14 @@
                 </tr>
                 <?php foreach($posts as $post): ?>
                     <tr>
-                        <td><?= $post['title'] ?></td>
-                        <td><?= mb_strimwidth($post['body'], 0, 250, '...') ?></td>
+                        <td><?= esc($post['title']) ?></td>
+                        <td><?= mb_strimwidth(esc($post['body']), 0, 250, '...') ?></td>
                         <td>
-                            <form action="/admin/posts/delete/<?= $post['id'] ?>" method="post">
+                            <form action="/admin/posts/delete/<?= esc($post['id']) ?>" method="post">
                                 <?= csrf_field() ?>
 
-                                <a href="/admin/posts/show/<?= $post['id'] ?>" class="btn btn-outline-info">View</a>
-                                <a href="/admin/posts/edit/<?= $post['id'] ?>" class="btn btn-outline-success">Edit</a>
+                                <a href="/admin/posts/show/<?= esc($post['id']) ?>" class="btn btn-outline-info">View</a>
+                                <a href="/admin/posts/edit/<?= esc($post['id']) ?>" class="btn btn-outline-success">Edit</a>
 
                                 <button type="submit" class="btn btn-outline-danger">Delete</button>
                             </form>

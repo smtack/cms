@@ -18,16 +18,24 @@
                 <?php endforeach; ?>
             <?php endif; ?>
 
-            <form action="/admin/posts/update/<?= $post['id'] ?>" method="post">
+            <form enctype="multipart/form-data" action="/admin/posts/update/<?= esc($post['id']) ?>" method="post">
                 <?= csrf_field() ?>
 
-                <div class="form-group">
+                <div class="form-group mb-2">
                     <label for="title">Title</label>
-                    <input class="form-control" type="input" name="title" value="<?= $post['title'] ?>">
+                    <input class="form-control" type="input" name="title" value="<?= esc($post['title']) ?>">
+                </div>
+                <div class="form-group mb-2">
+                    <label for="label">Label</label>
+                    <input class="form-control" type="input" name="label" value="<?= esc($post['label']) ?>">
+                </div>
+                <div class="form-group mb-2">
+                    <label for="image">Image (Optional)</label>
+                    <input class="form-control" type="file" name="image">
                 </div>
                 <div class="form-group">
                     <label for="body">Text</label>
-                    <textarea class="form-control" name="body" cols="45" rows="20"><?= $post['body'] ?></textarea>
+                    <textarea class="form-control" name="body" cols="45" rows="20"><?= esc($post['body']) ?></textarea>
                 </div>
 
                 <button class="btn btn-outline-primary mt-3" type="submit" name="submit">Update post</button>

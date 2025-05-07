@@ -12,7 +12,7 @@ class PostModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['title', 'slug', 'body'];
+    protected $allowedFields    = ['title', 'label', 'slug', 'image', 'body'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -30,6 +30,8 @@ class PostModel extends Model
     // Validation
     protected $validationRules      = [
         'title' => 'required|max_length[255]|min_length[3]',
+        'label' => 'max_length[50]|min_length[3]',
+        'image' => 'max_length[255]',
         'body' => 'required|max_length[5000]|min_length[10]',
     ];
     protected $validationMessages   = [];

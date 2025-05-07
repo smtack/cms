@@ -18,12 +18,20 @@
                 <?php endforeach; ?>
             <?php endif; ?>
 
-            <form action="/admin/posts/create" method="post">
+            <form enctype="multipart/form-data" action="/admin/posts/create" method="post">
                 <?= csrf_field() ?>
 
-                <div class="form-group">
+                <div class="form-group mb-2">
                     <label for="title">Title</label>
                     <input class="form-control" type="input" name="title" value="<?= set_value('title') ?>">
+                </div>
+                <div class="form-group mb-2">
+                    <label for="label">Label</label>
+                    <input class="form-control" type="input" name="label" value="<?= set_value('label') ?>">
+                </div>
+                <div class="form-group mb-2">
+                    <label for="image">Image (Optional)</label>
+                    <input class="form-control" type="file" name="image">
                 </div>
                 <div class="form-group">
                     <label for="body">Text</label>
